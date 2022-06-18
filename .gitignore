@@ -2,6 +2,8 @@
 
 appsettings.Development.json
 
+Migrations/
+
 *.swp
 *.*~
 project.lock.json
