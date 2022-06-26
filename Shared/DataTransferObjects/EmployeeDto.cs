@@ -13,5 +13,5 @@ namespace Shared.DataTransferObjects
         public string? Position { get; init; }
     }
 
-    public record EmployeeForCreationDto(string Name, int Age, string Position);
+    public record EmployeeCreateDto(string Name, int Age, string Position);
 }

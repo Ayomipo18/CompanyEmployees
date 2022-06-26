@@ -23,7 +23,7 @@ namespace CompanyEmployees.Presentation.Controllers
             return Ok(employees);
         }
 
-        [HttpGet("{id:guid}", Name = "GetEmployeeForCompany")]
+        [HttpGet("{id:guid}", Name = "GetEmployee")]
         public IActionResult GetEmployeeForCompany(Guid companyId, Guid id)
         {
             var employee = _service.EmployeeService.GetEmployee(companyId, id, trackChanges: false);
@@ -31,14 +31,14 @@ namespace CompanyEmployees.Presentation.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateEmployeeForCompany(Guid companyId, [FromBody] EmployeeForCreationDto employee)
+        public IActionResult CreateEmployeeForCompany(Guid companyId, [FromBody] EmployeeCreateDto employee)
         {
             if (employee is null)
-                return BadRequest("EmployeeForCreationDto object is null");
+                return BadRequest("EmployeeCreateDto object is null");
 
             var createdEmployee = _service.EmployeeService.CreateEmployeeForCompany(companyId, employee, trackChanges: false);
 
-            return CreatedAtRoute("GetEmployeeForCompany", new { companyId, id = createdEmployee.Id }, createdEmployee);
+            return CreatedAtRoute("GetEmployee", new { companyId, id = createdEmployee.Id }, createdEmployee);
         }
     }
 }

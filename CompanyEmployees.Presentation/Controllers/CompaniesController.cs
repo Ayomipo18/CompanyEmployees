@@ -34,10 +34,10 @@ namespace CompanyEmployees.Presentation.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateCompany([FromBody] CompanyForCreationDto company)
+        public IActionResult CreateCompany([FromBody] CompanyCreateDto company)
         {
             if (company is null)
-                return BadRequest("CompanyForCreationDto object is null");
+                return BadRequest("CompanyCreateDto object is null");
 
             var createdCompany = _service.CompanyService.CreateCompany(company);
 

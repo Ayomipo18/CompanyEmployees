@@ -49,7 +49,7 @@ namespace Service
             return employeeDto;
         }
 
-        public EmployeeDto CreateEmployeeForCompany(Guid companyId, EmployeeForCreationDto employeeForCreation, bool trackChanges)
+        public EmployeeDto CreateEmployeeForCompany(Guid companyId, EmployeeCreateDto employeeForCreation, bool trackChanges)
         {
             var company = _repository.Company.GetCompany(companyId, trackChanges);
             if (company is null) 
