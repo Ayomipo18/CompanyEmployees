@@ -12,4 +12,6 @@ namespace Shared.DataTransferObjects
         public int Age { get; init; } 
         public string? Position { get; init; }
     }
+
+    public record EmployeeCreateDto(string Name, int Age, string Position);
 }

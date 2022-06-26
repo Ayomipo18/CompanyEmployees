@@ -41,7 +41,7 @@ namespace Service
             return companyDto;
         }
 
-        public CompanyDto CreateCompany(CompanyForCreationDto company)
+        public CompanyDto CreateCompany(CompanyCreateDto company)
         {
             var companyEntity = _mapper.Map<Company>(company);
             _repository.Company.CreateCompany(companyEntity);
