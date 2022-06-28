@@ -36,9 +36,16 @@ namespace CompanyEmployees.Presentation.Controllers
             if (employee is null)
                 return BadRequest("EmployeeCreateDto object is null");
 
-            var createdEmployee = _service.EmployeeService.CreateEmployeeForCompany(companyId, employee, trackChanges: false);
+            var createdEmployee = _service.EmployeeService.CreateEmployee(companyId, employee, trackChanges: false);
 
             return CreatedAtRoute("GetEmployee", new { companyId, id = createdEmployee.Id }, createdEmployee);
+        }
+
+        [HttpDelete("{id:guid}")]
+        public IActionResult DeleteEmployeeForCompany(Guid companyId, Guid id)
+        {
+            _service.EmployeeService.DeleteEmployee(companyId, id, trackChanges: false);
+            return NoContent();
         }
     }
 }

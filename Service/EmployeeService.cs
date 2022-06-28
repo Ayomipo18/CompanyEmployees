@@ -49,7 +49,7 @@ namespace Service
             return employeeDto;
         }
 
-        public EmployeeDto CreateEmployeeForCompany(Guid companyId, EmployeeCreateDto employeeForCreation, bool trackChanges)
+        public EmployeeDto CreateEmployee(Guid companyId, EmployeeCreateDto employeeForCreation, bool trackChanges)
         {
             var company = _repository.Company.GetCompany(companyId, trackChanges);
             if (company is null) 
@@ -57,11 +57,25 @@ namespace Service
 
             var employee = _mapper.Map<Employee>(employeeForCreation);
 
-            _repository.Employee.CreateEmployeeForCompany(companyId, employee);
+            _repository.Employee.CreateEmployee(companyId, employee);
             _repository.Save();
 
             var employeeDto = _mapper.Map<EmployeeDto>(employee);
             return employeeDto;
+        }
+
+        public void DeleteEmployee(Guid companyId, Guid id, bool trackChanges)
+        {
+            var company = _repository.Company.GetCompany(companyId, trackChanges);
+            if(company is null)
+                throw new CompanyNotFoundException(companyId);
+
+            var employee = _repository.Employee.GetEmployee(companyId, id, trackChanges);
+            if (employee is null)
+                throw new EmployeeNotFoundException(id);
+
+            _repository.Employee.DeleteEmployee(employee);
+            _repository.Save();
         }
     }
 }
