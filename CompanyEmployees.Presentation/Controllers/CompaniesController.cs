@@ -46,17 +46,24 @@ namespace CompanyEmployees.Presentation.Controllers
         }
 
         [HttpGet("collection/({ids})", Name = "CompanyCollection")]
-        public IActionResult GetCompanyCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))]IEnumerable<Guid> ids)
+        public IActionResult GetCompanyCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
         {
             var companies = _service.CompanyService.GetByIds(ids, trackChanges: false);
             return Ok(companies);
         }
 
         [HttpPost("collection")]
-        public IActionResult CreateCompanyCollection([FromBody]IEnumerable<CompanyCreateDto> companyCollection)
+        public IActionResult CreateCompanyCollection([FromBody] IEnumerable<CompanyCreateDto> companyCollection)
         {
             var createdCompanies = _service.CompanyService.CreateCompanyCollection(companyCollection);
             return CreatedAtRoute("CompanyCollection", new { createdCompanies.ids }, createdCompanies.companies);
+        }
+
+        [HttpDelete("{id:guid}")]
+        public IActionResult DeleteCompany(Guid id)
+        {
+            _service.CompanyService.DeleteCompany(id, trackChanges: false);
+            return NoContent();
         }
     }
 }
