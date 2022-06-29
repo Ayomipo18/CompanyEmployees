@@ -1,4 +1,5 @@
 ﻿using Shared.DataTransferObjects;
+using Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,8 @@ namespace Service.Contracts
 
         EmployeeDto CreateEmployee(Guid companyId, EmployeeCreateDto employeeForCreation, bool trackChanges);
         void DeleteEmployee(Guid companyId, Guid id, bool trackChanges);
+        void UpdateEmployee(Guid companyId, Guid id, EmployeeUpdateDto employeeForUpdate, bool compTrackChanges, bool empTrackChanges);
+        (EmployeeUpdateDto employeePatch, Employee employee) GetEmployeePatch(Guid companyId, Guid id, bool compTrackChanges, bool empTrackChanges);
+        void SavePatchChanges(EmployeeUpdateDto employeePatch, Employee employee);
     }
 }
