@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using System;
@@ -7,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace CompanyEmployees.Presentation.Controllers
 {
@@ -37,6 +37,9 @@ namespace CompanyEmployees.Presentation.Controllers
             if (employee is null)
                 return BadRequest("EmployeeCreateDto object is null");
 
+            if(!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
+
             var createdEmployee = _service.EmployeeService.CreateEmployee(companyId, employee, trackChanges: false);
 
             return CreatedAtRoute("GetEmployee", new { companyId, id = createdEmployee.Id }, createdEmployee);
@@ -55,6 +58,9 @@ namespace CompanyEmployees.Presentation.Controllers
             if (employee is null)
                 return BadRequest("EmployeeForUpdateDto object is null");
 
+            if (!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
+
             _service.EmployeeService.UpdateEmployee(companyId, id, employee, compTrackChanges: false, empTrackChanges: true);
 
             return NoContent();
@@ -68,7 +74,12 @@ namespace CompanyEmployees.Presentation.Controllers
 
             var result = _service.EmployeeService.GetEmployeePatch(companyId, id, compTrackChanges: false, empTrackChanges: true);
 
-            patchDoc.ApplyTo(result.employeePatch);
+            patchDoc.ApplyTo(result.employeePatch, ModelState);
+
+            TryValidateModel(result.employeePatch);
+
+            if (!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
 
             _service.EmployeeService.SavePatchChanges(result.employeePatch, result.employee);
 

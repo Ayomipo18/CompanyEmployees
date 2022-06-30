@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ namespace Shared.DataTransferObjects
         public string? FullAddress { get; init; }
     }
 
-    public record CompanyCreateDto(string Name, string Address, string Country, IEnumerable<EmployeeCreateDto> Employees);
-    public record CompanyUpdateDto(string Name, string Address, string Country, IEnumerable<EmployeeCreateDto> Employees);
+    public record CompanyCreateDto : CompanyManipulationDto;
+ 
+    public record CompanyUpdateDto : CompanyManipulationDto;
 }
