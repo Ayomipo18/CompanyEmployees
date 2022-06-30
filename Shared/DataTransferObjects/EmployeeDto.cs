@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,8 @@ namespace Shared.DataTransferObjects
         public string? Position { get; init; }
     }
 
-    public record EmployeeCreateDto(string Name, int Age, string Position);
-    public record EmployeeUpdateDto(string Name, int Age, string Position);
+    public record EmployeeCreateDto : EmployeeManipulationDto;
+    
+    public record EmployeeUpdateDto : EmployeeManipulationDto;
+
 }
