@@ -12,10 +12,11 @@ namespace CompanyEmployees.Extensions
         public static void ConfigureCors(this IServiceCollection services) =>
             services.AddCors(options =>
             {
-                options.AddPolicy("COrsPolicy", builder => 
+                options.AddPolicy("COrsPolicy", builder =>
                     builder.AllowAnyOrigin()
                     .AllowAnyMethod()
-                    .AllowAnyHeader());
+                    .AllowAnyHeader()
+                    .WithExposedHeaders("X-Pagination"));
             });
 
         public static void ConfifureIISIntegration(this IServiceCollection services) =>
