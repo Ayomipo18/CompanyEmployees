@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CompanyEmployees.Presentation.ActionFilters;
 using CompanyEmployees.Presentation.ModelBinders;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -21,7 +22,8 @@ namespace CompanyEmployees.Presentation.Controllers
             _service = serviceManager;
         }
 
-        [HttpGet]
+        [HttpGet(Name = "GetCompanies")]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> GetCompanies()
         {
             var companies =await _service.CompanyService.GetAllCompaniesAsync(trackChanges: false);
@@ -72,6 +74,13 @@ namespace CompanyEmployees.Presentation.Controllers
         {
             await _service.CompanyService.UpdateCompanyAsync(id, company, trackChanges: true);
             return NoContent();
+        }
+
+        [HttpOptions]
+        public IActionResult GetCompaniesOptions()
+        {
+            Response.Headers.Add("Allow", "GET, OPTIONS, POST");
+            return Ok();
         }
     }
 }
