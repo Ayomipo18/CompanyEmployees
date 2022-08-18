@@ -2,6 +2,9 @@
 
 appsettings.Development.json
 
+Migrations/
+internal_logs/
+
 *.swp
 *.*~
 project.lock.json
